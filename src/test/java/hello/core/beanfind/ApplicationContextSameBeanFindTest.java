@@ -1,6 +1,7 @@
 package hello.core.beanfind;
 
 import hello.core.member.MemberRepository;
+import hello.core.member.MemoryMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
@@ -21,7 +22,8 @@ public class ApplicationContextSameBeanFindTest {
     void findBeanByTypeDuplicate() {
         //MemberRepository bean = ac.getBean(MemberRepository.class);
         assertThrows(NoUniqueBeanDefinitionException.class, () -> ac.getBean(MemberRepository.class));
-    } @Test
+    }
+    @Test
     @DisplayName("타입으로 조회시 같은 타입이 둘 이상 있으면, 빈 이름을 지정하면 된다") void findBeanByName() {
         MemberRepository memberRepository = ac.getBean("memberRepository1", MemberRepository.class);
         assertThat(memberRepository).isInstanceOf(MemberRepository.class);
@@ -40,14 +42,14 @@ public class ApplicationContextSameBeanFindTest {
 
     @Configuration
     static class SameBeanConfig {
-//        @Bean
-//        public MemberRepository memberRepository1() {
-//            return new MemoryMemberRepository();
-//        }
-//
-//        @Bean
-//        public MemberRepository memberRepository2() {
-//            return new MemoryMemberRepository();
-//        }
+        @Bean
+        public MemberRepository memberRepository1() {
+            return new MemoryMemberRepository();
+        }
+
+        @Bean
+        public MemberRepository memberRepository2() {
+            return new MemoryMemberRepository();
+        }
     }
 }
